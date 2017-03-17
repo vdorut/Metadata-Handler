@@ -94,20 +94,17 @@ var metadata = {
 }
 
 
-var torrentHash = "cf982f09760d08fe235f87fc3f7d5a841aace50f"
+    var toto = function (){handler.addMetadata(metadata, function (err, result) {
+      if (err) throw err
+      handler.on('uploads/' + result.torrentHash.toString('hex'), function (torrent) {
+         console.log('uploads: ', torrent)
+      })
+      handler.shareMetadata(result.torrentHash.toString('hex'), function (err, torrent) {
+        if (err) throw err
+         console.log('shareMetadata: ', torrent)
 
-  handler.addMetadata(metadata, function (err, hashes) {
-    if (err) return console.error(err)
-    console.log(hashes.torrentHash) // Will print BitTorrent hashing scheme using sha1 as the hashing algorithem
-    console.log(hashes.sha2) // Will print the sha256 of the raw metadata file
-  })
+      })
+       console.log(result)
+    }) }
 
-  // You can listen for the channel of the torrentHash to get the metadata
-
-  handler.on('uploads/'+torrentHash, function (peer) {
-    console.log(peer) // Will print information about the latest peer that is trying to download the metadata from your client
-  })
-
-  handler.shareMetadata(torrentHash, function (err) {
-    if (err) console.log(err) // Returns error if there is problem with sharing the file
-  })
+var test = toto()
